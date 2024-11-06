@@ -329,6 +329,7 @@ done
 
 chmod u+x ./$cmdfile
 ${APRUNC} ${MPISERIAL} -m ./$cmdfile
+export err=$?; err_chk
 
 date
 
@@ -457,6 +458,7 @@ done
 
 chmod u+x ./$cmdfile
 ${APRUNC} ${MPISERIAL} -m ./$cmdfile
+export err=$?; err_chk
 
 date
 
@@ -507,8 +509,9 @@ figScriptAll=( \
   plot_storm_wvelz40m.py \
   plot_storm_wvelz70m.py \
   plot_storm_wvelz100m.py \
-  plot_storm_forec_track_tran_temp.py \
-  plot_storm_lat_tran_temp.py \
+  plot_storm_crs_sn_temp.py \
+  plot_storm_crs_trk_temp.py \
+  plot_storm_crs_we_temp.py \
   )
 
 nscripts=${#figScriptAll[*]}
@@ -528,6 +531,7 @@ done
 chmod u+x ./$cmdfile
 
 ${APRUNC} ${MPISERIAL} -m ./$cmdfile
+export err=$?; err_chk
 
 IFHR=$(($IFHR + 1))
 FHR=$(($FHR + $NOUTHRS))
@@ -608,6 +612,7 @@ done
 
 chmod u+x ./$cmdfile
 ${APRUNC} ${MPISERIAL} -m ./$cmdfile
+export err=$?; err_chk
 
 date
 
