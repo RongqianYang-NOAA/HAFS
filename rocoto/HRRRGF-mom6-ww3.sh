@@ -7,20 +7,22 @@ set -x
 
 cd ${HOMEhafs}/rocoto
 EXPT=$(basename ${HOMEhafs})
-SUBEXPT=HRRRGF-mom6-ww3
+SUBEXPT=HRRRGF-mom6-ww3-graphics-126hr
 conf=../parm/hafs_hrrr_gf.conf
 opts="-t -f"
 
 first_test_works='2023082618-2023082700 10L'
 breaks_noahmp='2020082506-2020082618 13L'
+two_cycles='2020082506-2020082512 13L'
 
 scrubopt="config.scrub_work=no config.scrub_com=no"
-./run_hafs.py ${opts} ${breaks_noahmp} HISTORY \
+./run_hafs.py ${opts} ${two_cycles} HISTORY \
     config.EXPT=${EXPT} config.SUBEXPT=${SUBEXPT} \
-    config.NHRS=24 ${scrubopt} \
+    config.NHRS=126 ${scrubopt} \
     ../parm/hafs_hrrr_gf.conf \
     forecast.atm_tasks=1200 \
     forecast.all_tasks=1320 \
     gsi.use_bufr_nr=yes \
     config.run_wave=yes \
-    config.run_ocean=yes
+    config.run_ocean=yes \
+    config.run_emcgraphics=yes
