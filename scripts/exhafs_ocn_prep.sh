@@ -7,7 +7,7 @@
 #   coupling needed ocean initial condition (IC), open boundary condition (OBC)
 #   and atmospheric forcings.
 ################################################################################
-set -x -o pipefail
+set -xe -o pipefail
 
 CDATE=${CDATE:-${YMDH}}
 cyc=${cyc:-00}
@@ -92,6 +92,32 @@ else
   exit 1
 fi
 
+# Link SST 2DVAR NCODA analisys file
+if [ -e ${COMINrtofs}/rtofs.$ymd/seatmp_sfc_1o4500x3298_$ymd${hour}_0000_analfld ]; then
+  ${NLN} ${COMINrtofs}/rtofs.$ymd/seatmp_sfc_1o4500x3298_$ymd${hour}_0000_analfld seatmp_analfld
+else
+  echo "FATAL ERROR: ${COMINrtofs}/rtofs.$ymd/seatmp_sfc_1o4500x3298_$ymd${hour}_0000_analfld does not exist."
+  echo "FATAL ERROR: Cannot generate MOM6 IC. Exiting"
+  exit 1
+fi
+
+# Link SSS 2DVAR NCODA analisys file
+if [ -e ${COMINrtofs}/rtofs.$ymd/salint_sfc_1o4500x3298_$ymd${hour}_0000_analfld ]; then
+  ${NLN} ${COMINrtofs}/rtofs.$ymd/salint_sfc_1o4500x3298_$ymd${hour}_0000_analfld salint_analfld
+else
+  echo "FATAL ERROR: ${COMINrtofs}/rtofs.$ymd/salint_sfc_1o4500x3298_$ymd${hour}_0000_analfld does not exist."
+  echo "FATAL ERROR: Cannot generate MOM6 IC. Exiting"
+  exit 1
+fi
+
+# Run Python script to replace the SST from NCODA 2DVAR field onto RTOFS archv file
+${USHhafs}/read_hycom_archv_read_2DVAR_analfld_write_hycom_archv.py $ymd \
+    archv_in.a regional.grid.a seatmp_analfld 'temp'
+
+# Run Python script to replace the SSS from NCODA 2DVAR field onto RTOFS archv file
+${USHhafs}/read_hycom_archv_read_2DVAR_analfld_write_hycom_archv.py $ymd \
+    archv_in.a regional.grid.a salint_analfld 'salin'
+
 outnc_2d=ocean_ssh_ic.nc
 outnc_ts=ocean_ts_ic.nc
 outnc_uv=ocean_uv_ic.nc
@@ -100,11 +126,11 @@ export CDF034=rtofs_${outnc_ts}
 export CDF033=rtofs_${outnc_uv}
 
 # run HYCOM-tools executables to produce IC netcdf files
-${NCP} ${PARMmom6}/hafs_mom6_${ocean_domain}.rtofs_ocean_ssh_ic.in ./rtofs_ocean_ssh_ic.in
+${NCP} ${PARMhafs}/mom6/regional/hafs_mom6_${ocean_domain}.rtofs_ocean_ssh_ic.in ./rtofs_ocean_ssh_ic.in
 ${APRUNS} ${EXEChafs}/hafs_hycom_utils_archv2ncdf2d.x < ./rtofs_ocean_ssh_ic.in 2>&1 | tee ./archv2ncdf2d_ssh_ic.log
 export err=$?; err_chk
 
-${NCP} ${PARMmom6}/hafs_mom6_${ocean_domain}.rtofs_ocean_3d_ic.in ./rtofs_ocean_3d_ic.in
+${NCP} ${PARMhafs}/mom6/regional/hafs_mom6_${ocean_domain}.rtofs_ocean_3d_ic.in ./rtofs_ocean_3d_ic.in
 ${APRUNS} ${EXEChafs}/hafs_hycom_utils_archv2ncdf3z.x < ./rtofs_ocean_3d_ic.in 2>&1 | tee archv2ncdf3z_3d_ic.log
 export err=$?; err_chk
 
@@ -113,7 +139,8 @@ export err=$?; err_chk
 ncks -O -3 rtofs_${outnc_2d} rtofs_${outnc_2d}
 # Rename variables so they match MOM6 variable name
 ncrename -d Latitude,lath -d Longitude,lonh -d MT,time \
-         -v Latitude,lath -v Longitude,lonh -v MT,time -v ssh,ave_ssh \
+         -v Latitude,lath -v Longitude,lonh -v MT,time \
+	 -v ssh,ave_ssh -v mixed_layer_thickness,mld \
          rtofs_${outnc_2d} ${outnc_2d}
 # Change into netcdf4 format
 ncks -O -4 ${outnc_2d} ${outnc_2d}
@@ -132,6 +159,9 @@ ncrename -d Depth,depth -d Latitude,lath -d Longitude,lonh -d MT,time \
          rtofs_${outnc_ts} ${outnc_ts}
 # Change into netcdf4 format
 ncks -O -4 ${outnc_ts} ${outnc_ts}
+
+# Run Python script to merge the vertical profiles of temperature with the SST and SSS from NCODA 2DVAR field
+${USHhafs}/read_RTOFS_ic_nc_adjust_profiles.py $ymd${hour} ocean_ts_ic.nc ocean_ssh_ic.nc 'depth' 'Temp' 'Salt' 'mld'
 
 # UV file
 ncrename -d Depth,Layer -d Latitude,lath -d Longitude,lonh -d MT,Time \
@@ -220,21 +250,23 @@ export CDF034=rtofs.${type}${hour}_${outnc_ts}
 export CDF033=rtofs.${type}${hour}_${outnc_uv}
 
 # run HYCOM-tools executables to produce IC netcdf files
-${NCP} ${PARMmom6}/hafs_mom6_${ocean_domain}.rtofs_ocean_ssh_obc.in ./rtofs_ocean_ssh_obc.in
+${NCP} ${PARMhafs}/mom6/regional/hafs_mom6_${ocean_domain}.rtofs_ocean_ssh_obc.in ./rtofs_ocean_ssh_obc.in
 
 ${APRUNS} ${EXEChafs}/hafs_hycom_utils_archv2ncdf2d.x < ./rtofs_ocean_ssh_obc.in 2>&1 | tee ./archv2ncdf2d_ssh_obc.log
 export err=$?; err_chk
 
-${NCP} ${PARMmom6}/hafs_mom6_${ocean_domain}.rtofs_ocean_3d_obc.in ./rtofs_ocean_3d_obc.in
+${NCP} ${PARMhafs}/mom6/regional/hafs_mom6_${ocean_domain}.rtofs_ocean_3d_obc.in ./rtofs_ocean_3d_obc.in
 ${APRUNS} ${EXEChafs}/hafs_hycom_utils_archv2ncdf3z.x < ./rtofs_ocean_3d_obc.in 2>&1 | tee ./archv2ncdf3z_3d_obc.log
 export err=$?; err_chk
+
+# Run Python script to merge the vertical profiles of temperature and salinity with the SST and SSS from NCODA 2DVAR field
+${USHhafs}/read_RTOFS_ic_nc_adjust_profiles.py $ymd${hour} rtofs.${type}${hour}_${outnc_ts} rtofs.${type}${hour}_${outnc_2d} 'Depth' 'pot_temp' 'salinity' 'mixed_layer_thickness'
 
 # Run Python script to generate OBC
 ${NLN} ${FIXhafs}/fix_mom6/${ocean_domain}/ocean_hgrid.nc ./
 ${USHhafs}/hafs_mom6_obc_from_rtofs.py ./ ./ \
     rtofs.${type}${hour}_${outnc_2d} rtofs.${type}${hour}_${outnc_ts} rtofs.${type}${hour}_${outnc_uv} \
-    'Longitude' 'Latitude' ./ocean_hgrid.nc 'x' 'y' 2>&1 | tee ./mom6_obc_from_rtofs.log
-export err=$?; err_chk
+    'Longitude' 'Latitude' ./ocean_hgrid.nc 'x' 'y'
 
 # next obc hour
 #IFHR=$(($IFHR + 1))
@@ -287,9 +319,8 @@ while [ $FHR -le ${FHRE} ]; do
 grib2_file=${COMINgfs}/gfs.${ymd}/${cyc}/atmos/gfs.t${cyc}z.pgrb2.0p25.f${FHR3}
 
 # Check and wait for input data
-MAX_WAIT_TIME=${MAX_WAIT_TIME:-900}
-n=0
-while [ $n -le ${MAX_WAIT_TIME} ]; do
+n=1
+while [ $n -le 360 ]; do
   if [ -s ${grib2_file} ]; then
 	while [ $(( $(date +%s) - $(stat -c %Y ${grib2_file}) )) -lt 10  ]; do sleep 10; done
     echo "${grib2_file} ready, continue ..."
@@ -298,11 +329,11 @@ while [ $n -le ${MAX_WAIT_TIME} ]; do
     echo "${grib2_file} not ready, sleep 10"
     sleep 10s
   fi
-  n=$((n+10))
-  if [ $n -gt ${MAX_WAIT_TIME} ]; then
-    echo "FATAL ERROR: Waited ${grib2_file} too long $n > ${MAX_WAIT_TIME} seconds. Exiting"
+  if [ $n -ge 360 ]; then
+    echo "FATAL ERROR: Waited for ${grib2_file} too many times: $n. Exiting"
     exit 1
   fi
+  n=$(( n+1 ))
 done
 
 ${WGRIB2} ${grib2_file} -match "${PARMlist}" -netcdf gfs_global_${ymd}${cyc}_f${FHR3}.nc
@@ -313,8 +344,7 @@ FHR3=$(printf "%03d" "$FHR")
 done
 # End loop for forecast hours
 
-${USHhafs}/hafs_mom6_gfs_forcings.py ${CDATE} -l ${NHRS} 2>&1 | tee ./mom6_gfs_forcings.log
-export err=$?; err_chk
+${USHhafs}/hafs_mom6_gfs_forcings.py ${CDATE} -l ${NHRS} 
 
 # Obtain net longwave and shortwave radiation file
 echo 'Obtaining NETLW'
@@ -388,6 +418,7 @@ fileall="gfs_global_${CDATE}_NETLW.nc \
          gfs_global_${CDATE}_PRATE.nc \
          gfs_global_${CDATE}_TMP.nc"
 # Use cdo merge, which is faster
+#rm gfs_forcings.nc
 cdo merge ${fileall} gfs_forcings.nc
 # Alternatively, can use ncks, but slower
 #for file in ${fileall}; do ncks -h -A ${file} gfs_forcings.nc; done
@@ -402,3 +433,4 @@ if [ "${RUN_ENVIR^^}" = "NCO" ]; then
   ecflow_client --event Ocean
 fi      
 
+exit

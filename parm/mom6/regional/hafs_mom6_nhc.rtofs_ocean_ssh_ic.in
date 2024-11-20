@@ -26,7 +26,7 @@ netCDF
   0     'vvmio ' = mix. lay. v-vel. I/O unit (0 no I/O)
   0     'spmio ' = mix. lay. speed  I/O unit (0 no I/O)
   0     'bltio ' = bnd. lay. thick. I/O unit (0 no I/O)
-  0     'mltio ' = mix. lay. thick. I/O unit (0 no I/O)
+ 38     'mltio ' = mix. lay. thick. I/O unit (0 no I/O)
   0     'sstio ' = mix. lay. temp.  I/O unit (0 no I/O)
   0     'sssio ' = mix. lay. saln.  I/O unit (0 no I/O)
   0     'ssdio ' = mix. lay. dens.  I/O unit (0 no I/O)
