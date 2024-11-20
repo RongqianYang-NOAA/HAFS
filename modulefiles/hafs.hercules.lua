@@ -121,7 +121,7 @@ load(pathJoin("rocoto", rocoto_ver))
 unload("py-numpy/1.22.3")
 
 prepend_path("MODULEPATH", "/work/noaa/hwrf/noscrub/local/modulefiles")
-load(pathJoin("python", "wcoss2_env"))
+load(pathJoin("python", "wcoss2_env_old"))
 
 setenv("CMAKE_C_COMPILER", "mpiicc")
 setenv("CMAKE_CXX_COMPILER", "mpiicpc")
