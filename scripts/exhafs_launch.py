@@ -168,11 +168,25 @@ def main():
             renumber=True
         logger.info('Looks like this is rocoto, running a multistorm with basins: %s'%(basins))
         # call storm priority
-        bstorms = hafs.launcher.multistorm_priority(args, basins, logger, usage,renumber=renumber)
+        # Ghassan.Alaka@noaa.gov 2024-01-08
+        # Return max_storms
+        bstorms,max_storms = hafs.launcher.multistorm_priority(args, basins, logger, usage,renumber=renumber)
+        #bstorms = hafs.launcher.multistorm_priority(args, basins, logger, usage,renumber=renumber)
+        # GJA
         logger.info('Priority found the following storms: ' +repr(bstorms))
         for s in bstorms:
             if s not in multi_sids:
                 multi_sids.append(s)
+            # Ghassan.Alaka@noaa.gov 2024-01-08
+            # Limit the number of storms, if necessary
+            if len(multi_sids) == max_storms:  break
+            # GJA
+
+    # Ghassan.Alaka@noaa.gov 2024-01-08
+    # Limit the number of storms based on 'nest_grids'
+    #nest_grids = os.environ.get('nest_grids',2)
+    #multi_sids = multi_sids[:nest_grids-1]
+    # GJA
 
     logger.info('MS LIST: ' +repr(multi_sids))
 
@@ -227,6 +241,26 @@ def main():
         with open(holdvars,'wt') as f:
             f.write(conf.make_holdvars())
 
+        # Ghassan.Alaka@noaa.gov 2024-01-05
+        # Create holdvars in real storm (i.e., not fake storm - 00L) COM dirs.
+        # Move this after conf.sanity_check().
+        if stid != fake_stid and go_since_multistorm_sids:
+            holdvars=fakestorm_conf.strinterp('dir','{com}/storm{global_storm_num}.holdvars.txt')
+            holdvars=os.path.join(fakestorm_conf.strinterp('dir','{com}'),
+                                  'storm%d.holdvars.txt' %global_storm_num)
+            logger.info(holdvars+': write REALSTORM holdvars here')
+            with open(holdvars,'wt') as f:
+                f.write(conf.make_holdvars())
+        # GJA
+        
+        # Lew.Gramer@noaa.gov 2023-12-04
+        # if stid != fake_stid:
+        #     stormlabel = conf.strinterp('dir','{stormlabel}')
+        #     fakestorm_holdvars=fakestorm_conf.strinterp('dir',f'{com}/{stormlabel}.holdvars.txt')
+        #     logger.info(fakestorm_holdvars+': ALSO write holdvars here')
+        #     with open(fakestorm_holdvars,'wt') as f:
+        #         f.write(conf.make_holdvars())
+        
         holdvars2=conf.strinterp('dir','{com}/{out_prefix}.{RUN}.holdvars.txt')
         logger.info(holdvars2+': write holdvars here as well')
         with open(holdvars2,'wt') as f:

@@ -90,6 +90,7 @@
   <!ENTITY RUN_GEMPAK "@[RUN_GEMPAK:-NO]">
   <!ENTITY RUN_HRDGRAPHICS "@[RUN_HRDGRAPHICS:-NO]">
   <!ENTITY RUN_EMCGRAPHICS "@[RUN_EMCGRAPHICS:-NO]">
+  <!ENTITY ARCHIVE_FV3OUT "@[ARCHIVE_FV3OUT]">
   <!ENTITY MAKE_MESH_ATM "@[MAKE_MESH_ATM]">
   <!ENTITY MAKE_MESH_OCN "@[MAKE_MESH_OCN]">
 
@@ -1603,6 +1604,31 @@
     </dependency>
   </task>
 
+  <task name="archive_fv3out" maxtries="&MAX_TRIES_TRANSFER;">
+    <command>&PRE; &EXhafs;/exhafs_archive_fv3out.py</command>
+    <jobname>hafs_archive_fv3out_&SID;_<cyclestr>@Y@m@d@H</cyclestr></jobname>
+    <join><cyclestr>&WORKhafs;/hafs_archive_fv3out.log</cyclestr></join>
+    <account>&ACCOUNT;</account>
+    &RESERVATION;
+    <queue>&QUEUE_SERVICE;</queue>
+    &SERVICE_EXTRA;
+    <cores>1</cores>
+    &CORES_EXTRA;
+    <envar><name>TOTAL_TASKS</name><value>1</value></envar>
+    <walltime>06:00:00</walltime>
+    &MEMORY;
+    &ENV_VARS;
+
+    <dependency>
+      <and>
+        <taskdep task="forecast"/>
+        <streq><left>&ARCHIVE_FV3OUT;</left><right>YES</right></streq>
+        <not><taskdep task="scrub_work"/></not>
+        <not><taskdep task="scrub_com"/></not>
+      </and>
+    </dependency>
+  </task>
+
   <task name="scrub_work" maxtries="&MAX_TRIES;">
     <command>&PRE; &USHhafs;/hafs_scrub.py &SCRUB_WORK; WORK</command>
     <jobname>hafs_scrub_work_&SID;_<cyclestr>@Y@m@d@H</cyclestr></jobname>
@@ -1629,6 +1655,10 @@
           <taskdep task="forecast" state="RUNNING" cycle_offset="6:00:00"/>
           <taskdep task="forecast" cycle_offset="6:00:00"/>
           <taskdep task="scrub_work" cycle_offset="6:00:00"/>
+        </or>
+        <or>
+          <strneq><left>&ARCHIVE_FV3OUT;</left><right>YES</right></strneq>
+          <taskdep task="archive_fv3out"/>
         </or>
       </and>
     </dependency>
@@ -1665,6 +1695,10 @@
         </or>
         <taskdep task="archive_tape"/>
         <taskdep task="archive_disk"/>
+        <or>
+          <strneq><left>&ARCHIVE_FV3OUT;</left><right>YES</right></strneq>
+          <taskdep task="archive_fv3out"/>
+        </or>
         <taskdep task="scrub_work"/>
         <datadep age="&COM_SCRUB_TIME;"><cyclestr>&COMhafs;/&STORMLABEL;.done</cyclestr></datadep>
       </and>

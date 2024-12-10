@@ -7,6 +7,12 @@ set -xue
 export cycle=${cycle:-t${cyc:?}z}
 export storm_num=${storm_num:-1}
 export stormlabel=${stormlabel:-storm$storm_num}
+# Lew.Gramer@noaa.gov 2024-04-22:
+# echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT before"
+# stormlabel=${stormlabel:-storm1}
+# echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT after"
+# storm_num=${stormlabel: -1}
+# LJG
 export hafs_ver=${hafs_ver:?}
 export NET=${NET:?}
 export RUN=${RUN:?}
@@ -53,7 +59,9 @@ export COMhafs=${COMhafs:-$(compath.py ${envir}/${NET}/${hafs_ver})/${RUN}.${PDY
 export CONFhafs=$COMhafs/$stormlabel.conf
 export HOLDVARS=${HOLDVARS:-$COMhafs/$stormlabel.holdvars.txt}
 
+echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT before source ${HOLDVARS}"
 source ${HOLDVARS}
+echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT after source ${HOLDVARS}"
 
 export ENSDA=${ENSDA:-NO}
 export ENSID=${ENSID:-000}
@@ -81,6 +89,11 @@ fi
 mkdir -p $DATAinit
 cd $DATAinit
 
+# Ghassan.Alaka@noaa.gov 2024-01-22
+# Add multistorm env vars
+export RUN_MULTISTORM=${RUN_MULTISTORM:-NO}
+# GJA
+
 #===============================================================================
 # forecast
 
@@ -96,7 +109,9 @@ mkdir -p $DATA
 cd $DATA
 
 # Execute ex-script
+echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT before forecast call"
 ${HOMEhafs}/scripts/exhafs_forecast.sh
+echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT after forecast call"
 status=$?; [[ $status -ne 0 ]] && exit $status
 
 #===============================================================================
@@ -118,6 +133,7 @@ mkdir -p $DATA
 cd $DATA
 
 # Execute ex-script
+echo "DEBUG: stormlabel=${stormlabel} JHAFS_ATM_INIT before post call"
 ${HOMEhafs}/scripts/exhafs_atm_post.sh
 status=$?; [[ $status -ne 0 ]] && exit $status
 
@@ -155,7 +171,7 @@ for ng in $(seq 1 ${ngrids}); do
     tilestr=".tile$(printf '%d' ${ng})"
   fi
   gridstr=$(echo ${out_gridnames} | cut -d, -f ${ng})
-  echo "export neststr=$neststr tilestr=${tilestr} gridstr=${gridstr}; \
+  echo "export neststr=$neststr tilestr=${tilestr} gridstr=${gridstr} lasttile=$(( ${ng} == ${ngrids} )); \
         ${HOMEhafs}/scripts/exhafs_product.sh \
         > run_product.${gridstr}.log 2>&1" >> cmdfile_product
 done

@@ -433,16 +433,19 @@ $NLN $SATWHR           satwhrbufr
 $NLN $GSNDBF1          gsnd1bufr
 ##$NLN $B1HRS2           hirs2bufr
 ##$NLN $B1MSU            msubufr
-$NLN $B1HRS3           hirs3bufr
-$NLN $B1HRS4           hirs4bufr
+# Lew.Gramer@noaa.gov 2024-08-12 suggested by Yong Hui and Biju
+#$NLN $B1HRS3           hirs3bufr
+#$NLN $B1HRS4           hirs4bufr
 $NLN $B1AMUA           amsuabufr
 ##$NLN $B1AMUB           amsubbufr
 $NLN $B1MHS            mhsbufr
-$NLN $ESHRS3           hirs3bufrears
+# Lew.Gramer@noaa.gov 2024-08-12 suggested by Yong Hui and Biju
+#$NLN $ESHRS3           hirs3bufrears
 $NLN $ESAMUA           amsuabufrears
 ##$NLN $ESAMUB           amsubbufrears
 #$NLN $ESMHS            mhsbufrears
-$NLN $HRS3DB           hirs3bufr_db
+# Lew.Gramer@noaa.gov 2024-08-12 suggested by Yong Hui and Biju
+#$NLN $HRS3DB           hirs3bufr_db
 ##$NLN $AMUADB           amsuabufr_db
 ##$NLN $AMUBDB           amsubbufr_db
 #$NLN $MHSDB            mhsbufr_db

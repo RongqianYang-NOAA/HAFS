@@ -705,14 +705,14 @@ fi
 
 cd ${DATA}
 
-# Prepare the output RESTART dir
-mkdir -p ${RESTARTout}
-if [ ! -e ./RESTART ]; then
-  ${NLN} ${RESTARTout} RESTART
-fi
-rm -f RESTART/*
+# # Prepare the output RESTART dir
+# mkdir -p ${RESTARTout}
+# if [ ! -e ./RESTART ]; then
+#   ${NLN} ${RESTARTout} RESTART
+# fi
+# rm -f RESTART/*
 
-mkdir -p INPUT
+# mkdir -p INPUT
 
 if [ ${run_datm} = no ]; then
 
@@ -724,67 +724,67 @@ fi
 
 # Link all the gfs_bndy files here for full forecast ensemble members, but the
 # hour 000 and hour 006 lbc files will be replaced below.
-if [ ${ENSDA} = YES ] && [ $((10#${ENSID})) -le ${ENS_FCST_SIZE:-10} ]; then
-  ${NLN} ${WORKhafs}/intercom/chgres/gfs_bndy.tile7.*.nc INPUT/
-fi
+# if [ ${ENSDA} = YES ] && [ $((10#${ENSID})) -le ${ENS_FCST_SIZE:-10} ]; then
+#   ${NLN} ${WORKhafs}/intercom/chgres/gfs_bndy.tile7.*.nc INPUT/
+# fi
 
-${NLN} ${INPdir}/*.nc INPUT/
+# ${NLN} ${INPdir}/*.nc INPUT/
 
 if [ ${RUN_INIT:-NO} = YES ]; then
   cd INPUT/
-  ${NLN} gfs_bndy.tile7.000.nc gfs_bndy.tile7.$(printf "%03d" "$NBDYHRS").nc
+  # ${NLN} gfs_bndy.tile7.000.nc gfs_bndy.tile7.$(printf "%03d" "$NBDYHRS").nc
   cd ../
 fi
 
 # Link fix files
-${NLN} $FIXam/global_solarconstant_noaa_an.txt solarconstant_noaa_an.txt
-${NLN} $FIXam/ozprdlos_2015_new_sbuvO3_tclm15_nuchem.f77 global_o3prdlos.f77
-${NLN} $FIXam/global_h2o_pltc.f77 global_h2oprdlos.f77
-${NLN} $FIXam/global_sfc_emissivity_idx.txt sfc_emissivity_idx.txt
-${NLN} $FIXam/global_co2historicaldata_glob.txt co2historicaldata_glob.txt
-${NLN} $FIXam/co2monthlycyc.txt co2monthlycyc.txt
-${NLN} $FIXam/global_climaeropac_global.txt aerosol.dat
-${NLN} $FIXam/global_glacier.2x2.grb .
-${NLN} $FIXam/global_maxice.2x2.grb .
-${NLN} $FIXam/RTGSST.1982.2012.monthly.clim.grb .
-${NLN} $FIXam/global_snoclim.1.875.grb .
-${NLN} $FIXam/global_snowfree_albedo.bosu.t1534.3072.1536.rg.grb .
-${NLN} $FIXam/global_albedo4.1x1.grb .
-${NLN} $FIXam/CFSR.SEAICE.1982.2012.monthly.clim.grb .
-${NLN} $FIXam/global_tg3clim.2.6x1.5.grb .
-${NLN} $FIXam/global_vegfrac.0.144.decpercent.grb .
-${NLN} $FIXam/global_vegtype.igbp.t1534.3072.1536.rg.grb .
-${NLN} $FIXam/global_soiltype.statsgo.t1534.3072.1536.rg.grb .
-${NLN} $FIXam/global_soilmgldas.t1534.3072.1536.grb .
-${NLN} $FIXam/seaice_newland.grb .
-${NLN} $FIXam/global_shdmin.0.144x0.144.grb .
-${NLN} $FIXam/global_shdmax.0.144x0.144.grb .
-${NLN} $FIXam/global_slope.1x1.grb .
-${NLN} $FIXam/global_mxsnoalb.uariz.t1534.3072.1536.rg.grb .
+# ${NLN} $FIXam/global_solarconstant_noaa_an.txt solarconstant_noaa_an.txt
+# ${NLN} $FIXam/ozprdlos_2015_new_sbuvO3_tclm15_nuchem.f77 global_o3prdlos.f77
+# ${NLN} $FIXam/global_h2o_pltc.f77 global_h2oprdlos.f77
+# ${NLN} $FIXam/global_sfc_emissivity_idx.txt sfc_emissivity_idx.txt
+# ${NLN} $FIXam/global_co2historicaldata_glob.txt co2historicaldata_glob.txt
+# ${NLN} $FIXam/co2monthlycyc.txt co2monthlycyc.txt
+# ${NLN} $FIXam/global_climaeropac_global.txt aerosol.dat
+# ${NLN} $FIXam/global_glacier.2x2.grb .
+# ${NLN} $FIXam/global_maxice.2x2.grb .
+# ${NLN} $FIXam/RTGSST.1982.2012.monthly.clim.grb .
+# ${NLN} $FIXam/global_snoclim.1.875.grb .
+# ${NLN} $FIXam/global_snowfree_albedo.bosu.t1534.3072.1536.rg.grb .
+# ${NLN} $FIXam/global_albedo4.1x1.grb .
+# ${NLN} $FIXam/CFSR.SEAICE.1982.2012.monthly.clim.grb .
+# ${NLN} $FIXam/global_tg3clim.2.6x1.5.grb .
+# ${NLN} $FIXam/global_vegfrac.0.144.decpercent.grb .
+# ${NLN} $FIXam/global_vegtype.igbp.t1534.3072.1536.rg.grb .
+# ${NLN} $FIXam/global_soiltype.statsgo.t1534.3072.1536.rg.grb .
+# ${NLN} $FIXam/global_soilmgldas.t1534.3072.1536.grb .
+# ${NLN} $FIXam/seaice_newland.grb .
+# ${NLN} $FIXam/global_shdmin.0.144x0.144.grb .
+# ${NLN} $FIXam/global_shdmax.0.144x0.144.grb .
+# ${NLN} $FIXam/global_slope.1x1.grb .
+# ${NLN} $FIXam/global_mxsnoalb.uariz.t1534.3072.1536.rg.grb .
 
-for file in $(ls ${FIXam}/fix_co2_proj/global_co2historicaldata*); do
-  ${NLN} $file $(echo $(basename $file) | sed -e "s/global_//g")
-done
+# for file in $(ls ${FIXam}/fix_co2_proj/global_co2historicaldata*); do
+#   ${NLN} $file $(echo $(basename $file) | sed -e "s/global_//g")
+# done
 
 # MERRA2 fix files
-if [ ${iaer:-111} = 1011 ]; then
-  for n in 01 02 03 04 05 06 07 08 09 10 11 12; do
-    ${NLN} ${FIXhafs}/fix_aer/merra2.aerclim.2003-2014.m${n}.nc aeroclim.m${n}.nc
-  done
-  ${NLN} ${FIXhafs}/fix_lut/optics_BC.v1_3.dat  optics_BC.dat
-  ${NLN} ${FIXhafs}/fix_lut/optics_OC.v1_3.dat  optics_OC.dat
-  ${NLN} ${FIXhafs}/fix_lut/optics_DU.v15_3.dat optics_DU.dat
-  ${NLN} ${FIXhafs}/fix_lut/optics_SS.v3_3.dat  optics_SS.dat
-  ${NLN} ${FIXhafs}/fix_lut/optics_SU.v1_3.dat  optics_SU.dat
-fi
+# if [ ${iaer:-111} = 1011 ]; then
+#   for n in 01 02 03 04 05 06 07 08 09 10 11 12; do
+#     ${NLN} ${FIXhafs}/fix_aer/merra2.aerclim.2003-2014.m${n}.nc aeroclim.m${n}.nc
+#   done
+#   ${NLN} ${FIXhafs}/fix_lut/optics_BC.v1_3.dat  optics_BC.dat
+#   ${NLN} ${FIXhafs}/fix_lut/optics_OC.v1_3.dat  optics_OC.dat
+#   ${NLN} ${FIXhafs}/fix_lut/optics_DU.v15_3.dat optics_DU.dat
+#   ${NLN} ${FIXhafs}/fix_lut/optics_SS.v3_3.dat  optics_SS.dat
+#   ${NLN} ${FIXhafs}/fix_lut/optics_SU.v1_3.dat  optics_SU.dat
+# fi
 
 # Fix files for Thompson MP
-if [ ${imp_physics:-11} = 8 ]; then
-  ${NLN} ${FIXam}/qr_acr_qgV2.dat ./
-  ${NLN} ${FIXam}/qr_acr_qsV2.dat ./
-  ${NLN} ${FIXam}/CCN_ACTIVATE.BIN ./
-  ${NLN} ${FIXam}/freezeH2O.dat ./
-fi
+# if [ ${imp_physics:-11} = 8 ]; then
+#   ${NLN} ${FIXam}/qr_acr_qgV2.dat ./
+#   ${NLN} ${FIXam}/qr_acr_qsV2.dat ./
+#   ${NLN} ${FIXam}/CCN_ACTIVATE.BIN ./
+#   ${NLN} ${FIXam}/freezeH2O.dat ./
+# fi
 
 if [ $gtype = nest ]; then
 
@@ -792,71 +792,71 @@ cd ./INPUT
 
 ntiles=$((6 + ${nest_grids}))
 
-# Copy grid and orography
-for itile in $(seq 1 ${ntiles}); do
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${itile}.nc ./oro_data.tile${itile}.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${itile}.nc ./oro_data_ls.tile${itile}.nc
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${itile}.nc ./oro_data_ss.tile${itile}.nc
-  fi
-  ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${itile}.nc ./${CASE}_grid.tile${itile}.nc
-done
-${NLN} $FIXgrid/${CASE}/${CASE}_mosaic.nc ./grid_spec.nc
+# # Copy grid and orography
+# for itile in $(seq 1 ${ntiles}); do
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${itile}.nc ./oro_data.tile${itile}.nc
+#   if [ ${use_orog_gsl:-no} = yes ]; then
+#     ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${itile}.nc ./oro_data_ls.tile${itile}.nc
+#     ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${itile}.nc ./oro_data_ss.tile${itile}.nc
+#   fi
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${itile}.nc ./${CASE}_grid.tile${itile}.nc
+# done
+# ${NLN} $FIXgrid/${CASE}/${CASE}_mosaic.nc ./grid_spec.nc
 
-for itile in $(seq 7 ${ntiles}); do
-  inest=$(($itile - 5))
-  ${NLN} ${CASE}_grid.tile${itile}.nc grid.nest0${inest}.tile${itile}.nc
-  ${NLN} oro_data.tile${itile}.nc oro_data.nest0${inest}.tile${itile}.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} oro_data_ls.tile${itile}.nc oro_data_ls.nest0${inest}.tile${itile}.nc
-    ${NLN} oro_data_ss.tile${itile}.nc oro_data_ss.nest0${inest}.tile${itile}.nc
-  fi
-  ${NLN} gfs_data.tile${itile}.nc gfs_data.nest0${inest}.tile${itile}.nc
-  ${NLN} sfc_data.tile${itile}.nc sfc_data.nest0${inest}.tile${itile}.nc
-done
+# for itile in $(seq 7 ${ntiles}); do
+#   inest=$(($itile - 5))
+#   ${NLN} ${CASE}_grid.tile${itile}.nc grid.nest0${inest}.tile${itile}.nc
+#   ${NLN} oro_data.tile${itile}.nc oro_data.nest0${inest}.tile${itile}.nc
+#   if [ ${use_orog_gsl:-no} = yes ]; then
+#     ${NLN} oro_data_ls.tile${itile}.nc oro_data_ls.nest0${inest}.tile${itile}.nc
+#     ${NLN} oro_data_ss.tile${itile}.nc oro_data_ss.nest0${inest}.tile${itile}.nc
+#   fi
+#   ${NLN} gfs_data.tile${itile}.nc gfs_data.nest0${inest}.tile${itile}.nc
+#   ${NLN} sfc_data.tile${itile}.nc sfc_data.nest0${inest}.tile${itile}.nc
+# done
 
 # moving nest
 if [[ "${is_moving_nest}" = *".true."* ]] || [[ "${is_moving_nest}" = *".T."* ]]; then
-  mkdir -p moving_nest
-  cd moving_nest
+  # mkdir -p moving_nest
+  # cd moving_nest
   rrtmp=$(echo ${refine_ratio} | rev | cut -d, -f1 | rev)
-  ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile6.nc grid.tile6.nc
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile6.nc oro_data.tile6.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile6.nc oro_data_ls.tile6.nc
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile6.nc oro_data_ss.tile6.nc
-  fi
-  ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_grid.tile6.nc grid.tile6.${rrtmp}x.nc
-  ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data.tile6.nc oro_data.tile6.${rrtmp}x.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ls.tile6.nc oro_data_ls.tile6.${rrtmp}x.nc
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ss.tile6.nc oro_data_ss.tile6.${rrtmp}x.nc
-  fi
-  for var in facsf maximum_snow_albedo slope_type snowfree_albedo soil_type substrate_temperature vegetation_greenness vegetation_type; do
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/fix_sfc/${CASE_mvnest1res}.${var}.tile6.nc ${var}.tile6.${rrtmp}x.nc
-  done
+  # ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile6.nc grid.tile6.nc
+  # ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile6.nc oro_data.tile6.nc
+  # if [ ${use_orog_gsl:-no} = yes ]; then
+  #   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile6.nc oro_data_ls.tile6.nc
+  #   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile6.nc oro_data_ss.tile6.nc
+  # fi
+  # ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_grid.tile6.nc grid.tile6.${rrtmp}x.nc
+  # ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data.tile6.nc oro_data.tile6.${rrtmp}x.nc
+  # if [ ${use_orog_gsl:-no} = yes ]; then
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ls.tile6.nc oro_data_ls.tile6.${rrtmp}x.nc
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ss.tile6.nc oro_data_ss.tile6.${rrtmp}x.nc
+  # fi
+  # for var in facsf maximum_snow_albedo slope_type snowfree_albedo soil_type substrate_temperature vegetation_greenness vegetation_type; do
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/fix_sfc/${CASE_mvnest1res}.${var}.tile6.nc ${var}.tile6.${rrtmp}x.nc
+  # done
   cd ..
 fi
 
 cd ..
 
-# Prepare diag_table, field_table, input.nml, input_nest02.nml, model_configure, and ufs.configure
-${NCP} ${PARMforecast}/diag_table.tmp .
-if [ ${imp_physics:-11} = 8 ]; then
-  ${NCP} ${PARMforecast}/field_table_thompson ./field_table
-else
-  ${NCP} ${PARMforecast}/field_table .
-fi
-if [ ${progsigma:-.false.} = .true. ] || [ ${progsigma:-.false.} = .T. ]; then
-  cat ${PARMforecast}/field_progsigma >> ./field_table
-fi
-${NCP} ${PARMforecast}/input.nml.tmp .
-${NCP} ${PARMforecast}/input_nest.nml.tmp .
-${NCP} ${PARMforecast}/model_configure.tmp .
-${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure
+# # Prepare diag_table, field_table, input.nml, input_nest02.nml, model_configure, and ufs.configure
+# ${NCP} ${PARMforecast}/diag_table.tmp .
+# if [ ${imp_physics:-11} = 8 ]; then
+#   ${NCP} ${PARMforecast}/field_table_thompson ./field_table
+# else
+#   ${NCP} ${PARMforecast}/field_table .
+# fi
+# if [ ${progsigma:-.false.} = .true. ] || [ ${progsigma:-.false.} = .T. ]; then
+#   cat ${PARMforecast}/field_progsigma >> ./field_table
+# fi
+# ${NCP} ${PARMforecast}/input.nml.tmp .
+# ${NCP} ${PARMforecast}/input_nest.nml.tmp .
+# ${NCP} ${PARMforecast}/model_configure.tmp .
+# ${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure
 
 # NoahMP table file
-${NCP} ${PARMforecast}/noahmptable.tbl .
+# ${NCP} ${PARMforecast}/noahmptable.tbl .
 
 ngrids=$(( ${nest_grids} + 1 ))
 glob_pes=$(( ${glob_layoutx} * ${glob_layouty} * 6 ))
@@ -907,7 +907,7 @@ tc_pbl_nml=${glob_tc_pbl:-0}
 shal_cnv_nml=${glob_shal_cnv:-.true.}
 do_deep_nml=${glob_do_deep:-.true.}
 blocksize=$(( ${npy_nml}/${layouty_nml} ))
-atparse < input.nml.tmp > input.nml
+# atparse < input.nml.tmp > input.nml
 
 for n in $(seq 1 ${nest_grids}); do
   inest=$(( ${n} + 1 ))
@@ -933,7 +933,7 @@ for n in $(seq 1 ${nest_grids}); do
   n_del2_weak_nml=$( echo ${n_del2_weak} | cut -d , -f ${n} )
   max_slope_nml=$( echo ${max_slope} | cut -d , -f ${n} )
   blocksize=$(( ${npy_nml}/${layouty_nml} ))
-  atparse < input_nest.nml.tmp > input_nest0${inest}.nml
+  # atparse < input_nest.nml.tmp > input_nest0${inest}.nml
 done
 
 elif [ $gtype = regional ]; then
@@ -943,168 +943,168 @@ cd INPUT
 # Prepare tile data and orography for regional
 tile=7
 # prepare grid and orog files (halo[034])
-${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${tile}.halo?.nc ./
-${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${tile}.halo?.nc ./
-if [ ${use_orog_gsl:-no} = yes ]; then
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${tile}.nc ./
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${tile}.nc ./
-fi
-${NLN} $FIXgrid/${CASE}/${CASE}_mosaic.nc ./
+# ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${tile}.halo?.nc ./
+# ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${tile}.halo?.nc ./
+# if [ ${use_orog_gsl:-no} = yes ]; then
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${tile}.nc ./
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${tile}.nc ./
+# fi
+# ${NLN} $FIXgrid/${CASE}/${CASE}_mosaic.nc ./
 
-${NLN} ${CASE}_mosaic.nc grid_spec.nc
-${NLN} ${CASE}_grid.tile7.halo0.nc grid.tile7.halo0.nc
-${NLN} ${CASE}_grid.tile7.halo3.nc ${CASE}_grid.tile7.nc
-${NLN} ${CASE}_grid.tile7.halo4.nc grid.tile7.halo4.nc
-${NLN} ${CASE}_oro_data.tile7.halo0.nc oro_data.nc
-${NLN} ${CASE}_oro_data.tile7.halo4.nc oro_data.tile7.halo4.nc
-if [ ${use_orog_gsl:-no} = yes ]; then
-  ${NLN} ${CASE}_oro_data_ls.tile7.nc oro_data_ls.nc
-  ${NLN} ${CASE}_oro_data_ss.tile7.nc oro_data_ss.nc
-fi
-${NLN} sfc_data.tile7.nc sfc_data.nc
-${NLN} gfs_data.tile7.nc gfs_data.nc
+# ${NLN} ${CASE}_mosaic.nc grid_spec.nc
+# ${NLN} ${CASE}_grid.tile7.halo0.nc grid.tile7.halo0.nc
+# ${NLN} ${CASE}_grid.tile7.halo3.nc ${CASE}_grid.tile7.nc
+# ${NLN} ${CASE}_grid.tile7.halo4.nc grid.tile7.halo4.nc
+# ${NLN} ${CASE}_oro_data.tile7.halo0.nc oro_data.nc
+# ${NLN} ${CASE}_oro_data.tile7.halo4.nc oro_data.tile7.halo4.nc
+# if [ ${use_orog_gsl:-no} = yes ]; then
+#   ${NLN} ${CASE}_oro_data_ls.tile7.nc oro_data_ls.nc
+#   ${NLN} ${CASE}_oro_data_ss.tile7.nc oro_data_ss.nc
+# fi
+# ${NLN} sfc_data.tile7.nc sfc_data.nc
+# ${NLN} gfs_data.tile7.nc gfs_data.nc
 
 # regional with nests
-if [ $nest_grids -gt 1 ]; then
+# if [ $nest_grids -gt 1 ]; then
 
-ntiles=$((6 + ${nest_grids}))
-for itile in $(seq 8 ${ntiles}); do
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${itile}.nc ./oro_data.tile${itile}.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${itile}.nc ./oro_data_ls.tile${itile}.nc
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${itile}.nc ./oro_data_ss.tile${itile}.nc
-  fi
-  ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${itile}.nc ./${CASE}_grid.tile${itile}.nc
-done
+# ntiles=$((6 + ${nest_grids}))
+# for itile in $(seq 8 ${ntiles}); do
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile${itile}.nc ./oro_data.tile${itile}.nc
+#   if [ ${use_orog_gsl:-no} = yes ]; then
+#     ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile${itile}.nc ./oro_data_ls.tile${itile}.nc
+#     ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile${itile}.nc ./oro_data_ss.tile${itile}.nc
+#   fi
+#   ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile${itile}.nc ./${CASE}_grid.tile${itile}.nc
+# done
 
-for itile in $(seq 8 ${ntiles}); do
-  inest=$(($itile - 6))
-  ${NLN} ${CASE}_grid.tile${itile}.nc grid.nest0${inest}.tile${inest}.nc
-  ${NLN} oro_data.tile${itile}.nc oro_data.nest0${inest}.tile${inest}.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} oro_data_ls.tile${itile}.nc oro_data_ls.nest0${inest}.tile${inest}.nc
-    ${NLN} oro_data_ss.tile${itile}.nc oro_data_ss.nest0${inest}.tile${inest}.nc
-  fi
-  ${NLN} gfs_data.tile${itile}.nc gfs_data.nest0${inest}.tile${inest}.nc
-  ${NLN} sfc_data.tile${itile}.nc sfc_data.nest0${inest}.tile${inest}.nc
-done
+# for itile in $(seq 8 ${ntiles}); do
+#   inest=$(($itile - 6))
+#   ${NLN} ${CASE}_grid.tile${itile}.nc grid.nest0${inest}.tile${inest}.nc
+#   ${NLN} oro_data.tile${itile}.nc oro_data.nest0${inest}.tile${inest}.nc
+#   if [ ${use_orog_gsl:-no} = yes ]; then
+#     ${NLN} oro_data_ls.tile${itile}.nc oro_data_ls.nest0${inest}.tile${inest}.nc
+#     ${NLN} oro_data_ss.tile${itile}.nc oro_data_ss.nest0${inest}.tile${inest}.nc
+#   fi
+#   ${NLN} gfs_data.tile${itile}.nc gfs_data.nest0${inest}.tile${inest}.nc
+#   ${NLN} sfc_data.tile${itile}.nc sfc_data.nest0${inest}.tile${inest}.nc
+# done
 
-fi #if [ $nest_grids -gt 1 ]; then
+# fi #if [ $nest_grids -gt 1 ]; then
 
 # moving nest
 if [[ "${is_moving_nest}" = *".true."* ]] || [[ "${is_moving_nest}" = *".T."* ]]; then
   mkdir -p moving_nest
   cd moving_nest
   rrtmp=$(echo ${refine_ratio} | rev | cut -d, -f1 | rev)
-  ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile7.halo0.nc grid.tile1.nc
-  ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile7.halo0.nc oro_data.tile1.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile7.nc oro_data_ls.tile1.nc
-    ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile7.nc oro_data_ss.tile1.nc
-  fi
-  ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_grid.tile7.halo0.nc grid.tile1.${rrtmp}x.nc
-  ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data.tile7.halo0.nc oro_data.tile1.${rrtmp}x.nc
-  if [ ${use_orog_gsl:-no} = yes ]; then
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ls.tile7.nc oro_data_ls.tile1.${rrtmp}x.nc
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ss.tile7.nc oro_data_ss.tile1.${rrtmp}x.nc
-  fi
-  for var in facsf maximum_snow_albedo slope_type snowfree_albedo soil_type substrate_temperature vegetation_greenness vegetation_type; do
-    ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/fix_sfc/${CASE_mvnest1res}.${var}.tile7.halo0.nc ${var}.tile1.${rrtmp}x.nc
-  done
+  # ${NLN} $FIXgrid/${CASE}/${CASE}_grid.tile7.halo0.nc grid.tile1.nc
+  # ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data.tile7.halo0.nc oro_data.tile1.nc
+  # if [ ${use_orog_gsl:-no} = yes ]; then
+  #   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ls.tile7.nc oro_data_ls.tile1.nc
+  #   ${NLN} $FIXgrid/${CASE}/${CASE}_oro_data_ss.tile7.nc oro_data_ss.tile1.nc
+  # fi
+  # ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_grid.tile7.halo0.nc grid.tile1.${rrtmp}x.nc
+  # ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data.tile7.halo0.nc oro_data.tile1.${rrtmp}x.nc
+  # if [ ${use_orog_gsl:-no} = yes ]; then
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ls.tile7.nc oro_data_ls.tile1.${rrtmp}x.nc
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/${CASE_mvnest1res}_oro_data_ss.tile7.nc oro_data_ss.tile1.${rrtmp}x.nc
+  # fi
+  # for var in facsf maximum_snow_albedo slope_type snowfree_albedo soil_type substrate_temperature vegetation_greenness vegetation_type; do
+  #   ${NLN} $FIXgrid/../grid_mvnest1res/${CASE_mvnest1res}/fix_sfc/${CASE_mvnest1res}.${var}.tile7.halo0.nc ${var}.tile1.${rrtmp}x.nc
+  # done
   cd ..
 fi
 
 # For warm start from restart files (either before or after analysis)
-if [ ${warmstart_from_restart} = yes ]; then
-  ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.coupler.res ./coupler.res
-  sed -i -e "2s/.*/  ${yr}    $(echo ${mn}|sed 's/^0/ /')    $(echo ${dy}|sed 's/^0/ /')    $(echo ${hh}|sed 's/^0/ /')     0     0        Model start time:   year, month, day, hour, minute, second/" ./coupler.res
-  sed -i -e "3s/.*/  ${yr}    $(echo ${mn}|sed 's/^0/ /')    $(echo ${dy}|sed 's/^0/ /')    $(echo ${hh}|sed 's/^0/ /')     0     0        Current model time: year, month, day, hour, minute, second/" ./coupler.res
-  ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nc ./fv_core.res.nc
-  ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_srf_wnd.res.tile1.nc ./fv_srf_wnd.res.tile1.nc
-  ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.tile1.nc ./fv_core.res.tile1.nc
-  ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_tracer.res.tile1.nc ./fv_tracer.res.tile1.nc
-  for n in $(seq 2 ${nest_grids}); do
-    ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nest$(printf %02d ${n}).nc ./fv_core.res.nest$(printf %02d ${n}).nc
-    ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_srf_wnd.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_srf_wnd.res.nest$(printf %02d ${n}).tile${n}.nc
-    ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_core.res.nest$(printf %02d ${n}).tile${n}.nc
-    ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_tracer.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_tracer.res.nest$(printf %02d ${n}).tile${n}.nc
-  # if [ -e ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_ne.res.nest$(printf %02d ${n}).nc ]; then
-  #   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_ne.res.nest$(printf %02d ${n}).nc ./fv_BC_ne.res.nest$(printf %02d ${n}).nc
-  #   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_sw.res.nest$(printf %02d ${n}).nc ./fv_BC_sw.res.nest$(printf %02d ${n}).nc
-  # fi
-  done
-fi
+# if [ ${warmstart_from_restart} = yes ]; then
+#   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.coupler.res ./coupler.res
+#   sed -i -e "2s/.*/  ${yr}    $(echo ${mn}|sed 's/^0/ /')    $(echo ${dy}|sed 's/^0/ /')    $(echo ${hh}|sed 's/^0/ /')     0     0        Model start time:   year, month, day, hour, minute, second/" ./coupler.res
+#   sed -i -e "3s/.*/  ${yr}    $(echo ${mn}|sed 's/^0/ /')    $(echo ${dy}|sed 's/^0/ /')    $(echo ${hh}|sed 's/^0/ /')     0     0        Current model time: year, month, day, hour, minute, second/" ./coupler.res
+#   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nc ./fv_core.res.nc
+#   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_srf_wnd.res.tile1.nc ./fv_srf_wnd.res.tile1.nc
+#   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.tile1.nc ./fv_core.res.tile1.nc
+#   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_tracer.res.tile1.nc ./fv_tracer.res.tile1.nc
+#   for n in $(seq 2 ${nest_grids}); do
+#     ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nest$(printf %02d ${n}).nc ./fv_core.res.nest$(printf %02d ${n}).nc
+#     ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_srf_wnd.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_srf_wnd.res.nest$(printf %02d ${n}).tile${n}.nc
+#     ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_core.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_core.res.nest$(printf %02d ${n}).tile${n}.nc
+#     ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_tracer.res.nest$(printf %02d ${n}).tile${n}.nc ./fv_tracer.res.nest$(printf %02d ${n}).tile${n}.nc
+#   # if [ -e ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_ne.res.nest$(printf %02d ${n}).nc ]; then
+#   #   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_ne.res.nest$(printf %02d ${n}).nc ./fv_BC_ne.res.nest$(printf %02d ${n}).nc
+#   #   ${NLN} ${RESTARTinp}/${YMD}.${hh}0000.fv_BC_sw.res.nest$(printf %02d ${n}).nc ./fv_BC_sw.res.nest$(printf %02d ${n}).nc
+#   # fi
+#   done
+# fi
 
 cd ..
 
-# Prepare diag_table, field_table, input.nml, input_nest02.nml, model_configure, and ufs.configure
-${NCP} ${PARMforecast}/diag_table.tmp .
-if [ ${imp_physics:-11} = 8 ]; then
-  ${NCP} ${PARMforecast}/field_table_thompson ./field_table
-else
-  ${NCP} ${PARMforecast}/field_table .
-fi
-if [ ${progsigma:-.false.} = .true. ] || [ ${progsigma:-.false.} = .T. ]; then
-  cat ${PARMforecast}/field_progsigma >> ./field_table
-fi
-${NCP} ${PARMforecast}/input.nml.tmp .
-${NCP} ${PARMforecast}/input_nest.nml.tmp .
-${NCP} ${PARMforecast}/model_configure.tmp .
+# # Prepare diag_table, field_table, input.nml, input_nest02.nml, model_configure, and ufs.configure
+# ${NCP} ${PARMforecast}/diag_table.tmp .
+# if [ ${imp_physics:-11} = 8 ]; then
+#   ${NCP} ${PARMforecast}/field_table_thompson ./field_table
+# else
+#   ${NCP} ${PARMforecast}/field_table .
+# fi
+# if [ ${progsigma:-.false.} = .true. ] || [ ${progsigma:-.false.} = .T. ]; then
+#   cat ${PARMforecast}/field_progsigma >> ./field_table
+# fi
+# ${NCP} ${PARMforecast}/input.nml.tmp .
+# ${NCP} ${PARMforecast}/input_nest.nml.tmp .
+# ${NCP} ${PARMforecast}/model_configure.tmp .
 
 # NoahMP table file
-${NCP} ${PARMforecast}/noahmptable.tbl .
+# ${NCP} ${PARMforecast}/noahmptable.tbl .
 
-if [ ${ocean_model} = hycom ]; then
-  if [ ${run_ocean} = yes ] || [ ${run_wave} = yes ]; then
-    ${NCP} ${PARMforecast}/ufs.configure.cpl.tmp ./ufs.configure.tmp
-  else
-    ${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure.tmp
-  fi
-elif [ ${ocean_model} = mom6 ]; then
-  if [ ${run_ocean} = yes ] || [ ${run_wave} = yes ]; then
-    ${NCP} ${PARMforecast}/ufs.configure.mom6.tmp ./ufs.configure.tmp
-    ${NCP} ${PARMforecast}/data_table ./
-  else
-    ${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure.tmp
-  fi
-else
-  echo "WARNING: unknow ocean model of ${ocean_model}"
-fi
+# if [ ${ocean_model} = hycom ]; then
+#   if [ ${run_ocean} = yes ] || [ ${run_wave} = yes ]; then
+#     ${NCP} ${PARMforecast}/ufs.configure.cpl.tmp ./ufs.configure.tmp
+#   else
+#     ${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure.tmp
+#   fi
+# elif [ ${ocean_model} = mom6 ]; then
+#   if [ ${run_ocean} = yes ] || [ ${run_wave} = yes ]; then
+#     ${NCP} ${PARMforecast}/ufs.configure.mom6.tmp ./ufs.configure.tmp
+#     ${NCP} ${PARMforecast}/data_table ./
+#   else
+#     ${NCP} ${PARMforecast}/ufs.configure.atmonly ./ufs.configure.tmp
+#   fi
+# else
+#   echo "WARNING: unknow ocean model of ${ocean_model}"
+# fi
 
-sed -e "s/_EARTH_component_list_/${EARTH_component_list}/g" \
-    -e "s/_globalResourceControl_/${globalResourceControl:-false}/g" \
-    -e "s/_ATM_model_component_/${ATM_model_component}/g" \
-    -e "s/_DAT_model_component_/${DAT_model_component}/g" \
-    -e "s/_OCN_model_component_/${OCN_model_component}/g" \
-    -e "s/_WAV_model_component_/${WAV_model_component}/g" \
-    -e "s/_MED_model_component_/${MED_model_component}/g" \
-    -e "s/_ATM_model_attribute_/${ATM_model_attribute}/g" \
-    -e "s/_DAT_model_attribute_/${DAT_model_attribute}/g" \
-    -e "s/_OCN_model_attribute_/${OCN_model_attribute}/g" \
-    -e "s/_WAV_model_attribute_/${WAV_model_attribute}/g" \
-    -e "s/_MED_model_attribute_/${MED_model_attribute}/g" \
-    -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
-    -e "s/_DAT_petlist_bounds_/${DAT_petlist_bounds}/g" \
-    -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
-    -e "s/_WAV_petlist_bounds_/${WAV_petlist_bounds}/g" \
-    -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
-    -e "s/_ATM_omp_num_threads_/${ATM_omp_num_threads}/g" \
-    -e "s/_DAT_omp_num_threads_/${DAT_omp_num_threads}/g" \
-    -e "s/_OCN_omp_num_threads_/${OCN_omp_num_threads}/g" \
-    -e "s/_WAV_omp_num_threads_/${WAV_omp_num_threads}/g" \
-    -e "s/_MED_omp_num_threads_/${MED_omp_num_threads}/g" \
-    -e "s/_cpl_dt_/${cpl_dt}/g" \
-    -e "s/_runSeq_ALL_/${runSeq_ALL}/g" \
-    -e "s/_base_dtg_/${base_dtg}/g" \
-    -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
-    -e "s/_end_hour_/${end_hour}/g" \
-    -e "s/_NHRS_/${NHRS}/g" \
-    -e "s/_NOUTHRS_/${NOUTHRS}/g" \
-    -e "s/_merge_import_/${merge_import:-.false.}/g" \
-    -e "/_mesh_atm_/d" \
-    -e "s/_mesh_wav_/ww3_mesh.nc/g" \
-    -e "s/_multigrid_/false/g" \
-    ufs.configure.tmp > ufs.configure
+# sed -e "s/_EARTH_component_list_/${EARTH_component_list}/g" \
+#     -e "s/_globalResourceControl_/${globalResourceControl:-false}/g" \
+#     -e "s/_ATM_model_component_/${ATM_model_component}/g" \
+#     -e "s/_DAT_model_component_/${DAT_model_component}/g" \
+#     -e "s/_OCN_model_component_/${OCN_model_component}/g" \
+#     -e "s/_WAV_model_component_/${WAV_model_component}/g" \
+#     -e "s/_MED_model_component_/${MED_model_component}/g" \
+#     -e "s/_ATM_model_attribute_/${ATM_model_attribute}/g" \
+#     -e "s/_DAT_model_attribute_/${DAT_model_attribute}/g" \
+#     -e "s/_OCN_model_attribute_/${OCN_model_attribute}/g" \
+#     -e "s/_WAV_model_attribute_/${WAV_model_attribute}/g" \
+#     -e "s/_MED_model_attribute_/${MED_model_attribute}/g" \
+#     -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
+#     -e "s/_DAT_petlist_bounds_/${DAT_petlist_bounds}/g" \
+#     -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
+#     -e "s/_WAV_petlist_bounds_/${WAV_petlist_bounds}/g" \
+#     -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
+#     -e "s/_ATM_omp_num_threads_/${ATM_omp_num_threads}/g" \
+#     -e "s/_DAT_omp_num_threads_/${DAT_omp_num_threads}/g" \
+#     -e "s/_OCN_omp_num_threads_/${OCN_omp_num_threads}/g" \
+#     -e "s/_WAV_omp_num_threads_/${WAV_omp_num_threads}/g" \
+#     -e "s/_MED_omp_num_threads_/${MED_omp_num_threads}/g" \
+#     -e "s/_cpl_dt_/${cpl_dt}/g" \
+#     -e "s/_runSeq_ALL_/${runSeq_ALL}/g" \
+#     -e "s/_base_dtg_/${base_dtg}/g" \
+#     -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
+#     -e "s/_end_hour_/${end_hour}/g" \
+#     -e "s/_NHRS_/${NHRS}/g" \
+#     -e "s/_NOUTHRS_/${NOUTHRS}/g" \
+#     -e "s/_merge_import_/${merge_import:-.false.}/g" \
+#     -e "/_mesh_atm_/d" \
+#     -e "s/_mesh_wav_/ww3_mesh.nc/g" \
+#     -e "s/_multigrid_/false/g" \
+#     ufs.configure.tmp > ufs.configure
 
 ngrids=${nest_grids}
 n=1
@@ -1160,7 +1160,7 @@ do_deep_nml=$( echo ${do_deep} | cut -d , -f ${n} )
 bc_update_interval=${NBDYHRS}
 nrows_blend=${halo_blend}
 blocksize=$(( ${npy_nml}/${layouty_nml} ))
-atparse < input.nml.tmp > input.nml
+# atparse < input.nml.tmp > input.nml
 
 for n in $(seq 2 ${nest_grids}); do
   inest=$(( ${n} ))
@@ -1192,7 +1192,7 @@ for n in $(seq 2 ${nest_grids}); do
   shal_cnv_nml=$( echo ${shal_cnv} | cut -d , -f ${n} )
   do_deep_nml=$( echo ${do_deep} | cut -d , -f ${n} )
   blocksize=$(( ${npy_nml}/${layouty_nml} ))
-  atparse < input_nest.nml.tmp > input_nest0${inest}.nml
+  # atparse < input_nest.nml.tmp > input_nest0${inest}.nml
 done
 
 fi # if regional
@@ -1202,44 +1202,44 @@ fi # if not cdeps datm
 if [ $gtype = regional ]; then
 
 if [ ${run_ocean} = yes ] && [ ${ocean_model} = mom6 ]; then
-  mkdir -p OUTPUT
-  # Ocean IC and OBC
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_ic.nc INPUT/ocean_ssh_ic.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_ic.nc INPUT/ocean_ts_ic.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_ic.nc INPUT/ocean_uv_ic.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_east.nc INPUT/ocean_ssh_obc_east.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_north.nc INPUT/ocean_ssh_obc_north.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_south.nc INPUT/ocean_ssh_obc_south.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_west.nc INPUT/ocean_ssh_obc_west.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_east.nc INPUT/ocean_ts_obc_east.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_north.nc INPUT/ocean_ts_obc_north.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_south.nc INPUT/ocean_ts_obc_south.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_west.nc INPUT/ocean_ts_obc_west.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_east.nc INPUT/ocean_uv_obc_east.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_north.nc INPUT/ocean_uv_obc_north.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_south.nc INPUT/ocean_uv_obc_south.nc
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_west.nc INPUT/ocean_uv_obc_west.nc
+  # mkdir -p OUTPUT
+  # # Ocean IC and OBC
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_ic.nc INPUT/ocean_ssh_ic.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_ic.nc INPUT/ocean_ts_ic.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_ic.nc INPUT/ocean_uv_ic.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_east.nc INPUT/ocean_ssh_obc_east.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_north.nc INPUT/ocean_ssh_obc_north.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_south.nc INPUT/ocean_ssh_obc_south.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ssh_obc_west.nc INPUT/ocean_ssh_obc_west.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_east.nc INPUT/ocean_ts_obc_east.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_north.nc INPUT/ocean_ts_obc_north.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_south.nc INPUT/ocean_ts_obc_south.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_ts_obc_west.nc INPUT/ocean_ts_obc_west.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_east.nc INPUT/ocean_uv_obc_east.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_north.nc INPUT/ocean_uv_obc_north.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_south.nc INPUT/ocean_uv_obc_south.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/ocean_uv_obc_west.nc INPUT/ocean_uv_obc_west.nc
 
-  # Ocean fix files
-  ${NLN} ${FIXmom6}/ocean_vgrid_lev55.nc INPUT/ocean_vgrid.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_hgrid.nc INPUT/ocean_hgrid.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_topog.nc INPUT/ocean_topog.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_mosaic.nc INPUT/ocean_mosaic.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_geothermal.nc INPUT/ocean_geothermal.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_tidal_amplitude.nc INPUT/ocean_tidal_amplitude.nc
-  ${NLN} ${FIXmom6}/${ocean_domain}/ocean_chla.nc INPUT/ocean_chla.nc
-  ${NLN} ${FIXmom6}/runoff.daitren.clim.v20180328.nc INPUT/ocean_runoff_monthly.nc
-  ${NLN} ${FIXmom6}/woa23_decav91C0_monthly_sss_04_fill0.nc INPUT/ocean_salt_restore.nc
+  # # Ocean fix files
+  # ${NLN} ${FIXmom6}/ocean_vgrid_lev55.nc INPUT/ocean_vgrid.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_hgrid.nc INPUT/ocean_hgrid.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_topog.nc INPUT/ocean_topog.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_mosaic.nc INPUT/ocean_mosaic.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_geothermal.nc INPUT/ocean_geothermal.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_tidal_amplitude.nc INPUT/ocean_tidal_amplitude.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/ocean_chla.nc INPUT/ocean_chla.nc
+  # ${NLN} ${FIXmom6}/runoff.daitren.clim.v20180328.nc INPUT/ocean_runoff_monthly.nc
+  # ${NLN} ${FIXmom6}/woa23_decav91C0_monthly_sss_04_fill0.nc INPUT/ocean_salt_restore.nc
 # ${NLN} ${FIXmom6}/woa23_decav91C0_monthly_sst_04_fill0.nc INPUT/ocean_sst_restore.nc
 
   # Ocean mesh
-  ${NLN} ${FIXmom6}/${ocean_domain}/mom6_mesh.nc INPUT/mom6_mesh.nc
+  # ${NLN} ${FIXmom6}/${ocean_domain}/mom6_mesh.nc INPUT/mom6_mesh.nc
   # Atmospheric forcings from GFS
-  ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/gfs_forcings.nc INPUT/gfs_forcings.nc
+  # ${NLN} ${WORKhafs}/intercom/ocn_prep/mom6/gfs_forcings.nc INPUT/gfs_forcings.nc
   # DATM gfs mesh
-  ${NLN} ${FIXhafs}/fix_cdeps/meshes/datm_gfs_mesh.nc INPUT/gfs_mesh.nc
+  # ${NLN} ${FIXhafs}/fix_cdeps/meshes/datm_gfs_mesh.nc INPUT/gfs_mesh.nc
   # Generate stream.config
-  ${NCP} ${PARMhafs}/cdeps/stream.config.mom6.IN stream.config.IN
+  # ${NCP} ${PARMhafs}/cdeps/stream.config.mom6.IN stream.config.IN
   STREAM_OFFSET=0
   SYEAR=${yr}
   EYEAR=$(${NDATE} +${NHRS} $CDATE | cut -c1-4)
@@ -1247,66 +1247,66 @@ if [ ${run_ocean} = yes ] && [ ${ocean_model} = mom6 ]; then
   INLINE_STREAM_FILES_OCN="INPUT/gfs_forcings.nc"
   INLINE_MESH_ATM="INPUT/gfs_mesh.nc"
   INLINE_STREAM_FILES_ATM="INPUT/gfs_forcings.nc"
-  atparse < ./stream.config.IN > ./stream.config
+  # atparse < ./stream.config.IN > ./stream.config
 
   # MOM_input
-  ${NCP} ${PARMhafs}/mom6/regional/hafs_mom6.input.IN ./hafs_mom6.input.IN
+  # ${NCP} ${PARMhafs}/mom6/regional/hafs_mom6.input.IN ./hafs_mom6.input.IN
   NIGLOBAL=$(ncks --trd -m INPUT/ocean_ts_ic.nc | grep -E -i ": lonh, size =" | cut -f 7 -d ' ' | uniq)
   NJGLOBAL=$(ncks --trd -m INPUT/ocean_ts_ic.nc | grep -E -i ": lath, size =" | cut -f 7 -d ' ' | uniq)
-  atparse < ./hafs_mom6.input.IN > ./MOM_input
+  # atparse < ./hafs_mom6.input.IN > ./MOM_input
 
 fi # if [ ${run_ocean} = yes ] && [ ${ocean_model} = mom6 ]; then
 
 if [ ${run_ocean} = yes ] && [ ${ocean_model} = hycom ]; then
   # link hycom related files
-  ${NLN} ${WORKhafs}/intercom/hycominit/hycom_settings hycom_settings
+  # ${NLN} ${WORKhafs}/intercom/hycominit/hycom_settings hycom_settings
   hycom_basin=$(grep RUNmodIDout ./hycom_settings | cut -c20-)
-  # link IC/BC
-  ${NLN} ${WORKhafs}/intercom/hycominit/restart_out.a restart_in.a
-  ${NLN} ${WORKhafs}/intercom/hycominit/restart_out.b restart_in.b
-  # link forcing
-  ${NLN} ${WORKhafs}/intercom/hycominit/forcing* .
-  ${NLN} forcing.presur.a forcing.mslprs.a
-  ${NLN} forcing.presur.b forcing.mslprs.b
-  # link hycom limits
-  ${NLN} ${WORKhafs}/intercom/hycominit/limits .
-  # link fix
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.depth.a regional.depth.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.depth.b regional.depth.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.grid.a regional.grid.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.grid.b regional.grid.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.forcing.chl.a forcing.chl.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.forcing.chl.b forcing.chl.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.iso.sigma.a iso.sigma.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.iso.sigma.b iso.sigma.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.ssh.a relax.ssh.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.ssh.b relax.ssh.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.tbaric.a tbaric.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.tbaric.b tbaric.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.thkdf4.a thkdf4.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.thkdf4.b thkdf4.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf2.a veldf2.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf2.b veldf2.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf4.a veldf4.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf4.b veldf4.b
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.rmu.a relax.rmu.a
-  ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.rmu.b relax.rmu.b
-  # copy parms
-  ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.fcst.blkdat.input blkdat.input
-  ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.ports.input ports.input
-  ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.patch.input.${ocn_tasks} patch.input
+  # # link IC/BC
+  # ${NLN} ${WORKhafs}/intercom/hycominit/restart_out.a restart_in.a
+  # ${NLN} ${WORKhafs}/intercom/hycominit/restart_out.b restart_in.b
+  # # link forcing
+  # ${NLN} ${WORKhafs}/intercom/hycominit/forcing* .
+  # ${NLN} forcing.presur.a forcing.mslprs.a
+  # ${NLN} forcing.presur.b forcing.mslprs.b
+  # # link hycom limits
+  # ${NLN} ${WORKhafs}/intercom/hycominit/limits .
+  # # link fix
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.depth.a regional.depth.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.depth.b regional.depth.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.grid.a regional.grid.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.regional.grid.b regional.grid.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.forcing.chl.a forcing.chl.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.forcing.chl.b forcing.chl.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.iso.sigma.a iso.sigma.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.iso.sigma.b iso.sigma.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.ssh.a relax.ssh.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.ssh.b relax.ssh.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.tbaric.a tbaric.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.tbaric.b tbaric.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.thkdf4.a thkdf4.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.thkdf4.b thkdf4.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf2.a veldf2.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf2.b veldf2.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf4.a veldf4.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.veldf4.b veldf4.b
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.rmu.a relax.rmu.a
+  # ${NLN} ${FIXhycom}/hafs_${hycom_basin}.basin.relax.rmu.b relax.rmu.b
+  # # copy parms
+  # ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.fcst.blkdat.input blkdat.input
+  # ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.ports.input ports.input
+  # ${NCP} ${PARMhycom}/hafs_${hycom_basin}.basin.patch.input.${ocn_tasks} patch.input
 fi #if [ ${run_ocean} = yes ] && [ ${ocean_model} = hycom ]; then
 
 if [ ${run_wave} = yes ]; then
-  # link ww3 related files
-  ${NLN} ${WORKhafs}/intercom/ww3/mod_def.ww3 mod_def.ww3
-  ${NLN} ${WORKhafs}/intercom/ww3/ww3_mesh.nc ww3_mesh.nc
-  ${NLN} ${WORKhafs}/intercom/ww3/wind.ww3 wind.ww3
-  ${NLN} ${WORKhafs}/intercom/ww3/current.ww3 current.ww3
-  ${NLN} ${WORKhafs}/intercom/ww3/restart_init.ww3 restart.ww3
-  ${NLN} ${WORKhafs}/intercom/ww3/nest.ww3 nest.ww3
-  # copy parms
-  ${NCP} ${PARMww3}/ww3_shel.inp_tmpl ./ww3_shel.inp_tmpl
+  # # link ww3 related files
+  # ${NLN} ${WORKhafs}/intercom/ww3/mod_def.ww3 mod_def.ww3
+  # ${NLN} ${WORKhafs}/intercom/ww3/ww3_mesh.nc ww3_mesh.nc
+  # ${NLN} ${WORKhafs}/intercom/ww3/wind.ww3 wind.ww3
+  # ${NLN} ${WORKhafs}/intercom/ww3/current.ww3 current.ww3
+  # ${NLN} ${WORKhafs}/intercom/ww3/restart_init.ww3 restart.ww3
+  # ${NLN} ${WORKhafs}/intercom/ww3/nest.ww3 nest.ww3
+  # # copy parms
+  # ${NCP} ${PARMww3}/ww3_shel.inp_tmpl ./ww3_shel.inp_tmpl
   # generate ww3_shel.inp
   INPUT_CURFLD="F F"
   INPUT_WNDFLD=${INPUT_WNDFLD:-"C F"}
@@ -1327,115 +1327,115 @@ if [ ${run_wave} = yes ]; then
   GOFILETYPE=0
   POFILETYPE=0
   OUTPARS_WAV="WND HS T01 T02 DIR FP DP PHS PTP PDIR UST CHA USP"
-  atparse < ./ww3_shel.inp_tmpl > ./ww3_shel.inp
-  # link 6-hr ww3 restart file from COMhafs for output, needed for warm-start waves for the next forecast cycle
-  ${NLN} ${COMhafs}/${out_prefix}.${RUN}.ww3.restart.f006 ./${RDATE:0:8}.${RDATE:8:2}0000.restart.ww3
+  # atparse < ./ww3_shel.inp_tmpl > ./ww3_shel.inp
+  # # link 6-hr ww3 restart file from COMhafs for output, needed for warm-start waves for the next forecast cycle
+  # ${NLN} ${COMhafs}/${out_prefix}.${RUN}.ww3.restart.f006 ./${RDATE:0:8}.${RDATE:8:2}0000.restart.ww3
 fi #if [ ${run_wave} = yes ]; then
 
-if [ ${RUN_INIT:-NO} = NO ]; then
+# if [ ${RUN_INIT:-NO} = NO ]; then
 
 # Pass along the grid_spec.nc, atmos_static.nc, oro_data.nc
-if [ ${ENSDA} = YES ]; then
-  if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/grid_spec.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/grid_spec*.nc RESTART/
-  fi
-  if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/atmos_static.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/atmos_static*.nc RESTART/
-  fi
-  if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/oro_data.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/oro_data*.n*c RESTART/
-  fi
-else
-  if [ -s ${WORKhafs}/intercom/RESTART_init/grid_spec.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init/grid_spec*.nc RESTART/
-  fi
-  if [ -s ${WORKhafs}/intercom/RESTART_init/atmos_static.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init/atmos_static*.nc RESTART/
-  fi
-  if [ -s ${WORKhafs}/intercom/RESTART_init/oro_data.nc ]; then
-    ${NCP} -p ${WORKhafs}/intercom/RESTART_init/oro_data*.n*c RESTART/
-  fi
-fi
+# if [ ${ENSDA} = YES ]; then
+#   if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/grid_spec.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/grid_spec*.nc RESTART/
+#   fi
+#   if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/atmos_static.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/atmos_static*.nc RESTART/
+#   fi
+#   if [ -s ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/oro_data.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init_ens/mem${ENSID}/oro_data*.n*c RESTART/
+#   fi
+# else
+#   if [ -s ${WORKhafs}/intercom/RESTART_init/grid_spec.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init/grid_spec*.nc RESTART/
+#   fi
+#   if [ -s ${WORKhafs}/intercom/RESTART_init/atmos_static.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init/atmos_static*.nc RESTART/
+#   fi
+#   if [ -s ${WORKhafs}/intercom/RESTART_init/oro_data.nc ]; then
+#     ${NCP} -p ${WORKhafs}/intercom/RESTART_init/oro_data*.n*c RESTART/
+#   fi
+# fi
 
-fi #if [ ${RUN_INIT:-NO} = NO ]; then
+# fi #if [ ${RUN_INIT:-NO} = NO ]; then
 
 fi #if [ $gtype = nest ]; then
 
 # Prepare CDEPS input, parm, and fix files if required.
-if [ ${run_datm} = yes ]; then
-  datm_source=${DATM_SOURCE:-ERA5}
-  ${NCP} ${PARMforecast}/model_configure.tmp .
-  ${NLN} ${mesh_atm} INPUT/DATM_ESMF_mesh.nc
-  ${NLN} "$datm_input_path"/DATM_input*nc INPUT/
-  # Generate docn.streams from template specific to the model:
-  ${NCP} ${PARMhafs}/cdeps/datm_$( echo "$datm_source" | tr A-Z a-z ).streams datm.streams
-  for file in INPUT/DATM_input*nc; do
-    if [[ -s "$file" ]]; then
-      sed -i "/^stream_data_files01:/ s/$/\ \"INPUT\/$(basename $file)\"/" datm.streams
-    fi
-  done
-  endyr=$(${NDATE} +${NHRS} $CDATE | cut -c1-4)
-  sed -i "s/_yearFirst_/$yr/g" datm.streams
-  sed -i "s/_yearLast_/$endyr/g" datm.streams
-  sed -i "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" datm.streams
-  # Generate datm_in and ufs.configure from model-independent templates:
-  ${NCP} ${PARMhafs}/cdeps/datm_in .
-  sed -i "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" datm_in
-  ${NCP} ${PARMforecast}/ufs.configure.cdeps.tmp ./
-  sed -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
-      -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
-      -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
-      -e "s/_cpl_dt_/${cpl_dt}/g" \
-      -e "s/_base_dtg_/${CDATE}/g" \
-      -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
-      -e "s/_end_hour_/${NHRS}/g" \
-      -e "s/_merge_import_/${merge_import:-.true.}/g" \
-      -e "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" \
-      -e "/_mesh_ocn_/d" \
-      -e "/_system_type_/d" \
-      -e "s/_atm_model_/datm/g" \
-      -e "s/_ocn_model_/hycom/g" \
-      ufs.configure.cdeps.tmp > ufs.configure
-elif [ ${run_docn} = yes ]; then
-  MAKE_MESH_OCN=$( echo "${make_mesh_ocn:-no}" | tr a-z A-Z )
-  ${NLN} "$docn_input_path"/DOCN_input*nc INPUT/
-  #${NCP} ${PARMhafs}/cdeps/docn_in .
-  #${NCP} ${PARMhafs}/cdeps/docn.streams .
-  docn_source=${DOCN_SOURCE:-OISST}
-  # Generate docn_in from template:
-  ${NCP} ${PARMhafs}/cdeps/docn_in docn_in_template
-  sed -e "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" \
-      -e "s/_nx_global_/$docn_mesh_nx_global/g" \
-      -e "s/_ny_global_/$docn_mesh_ny_global/g" \
-      < docn_in_template > docn_in
-  # Generate docn.streams from template specific to the model:
-  ${NCP} ${PARMhafs}/cdeps/docn_$( echo "$docn_source" | tr A-Z a-z ).streams docn.streams
-  endyr=$(${NDATE} +${NHRS} $CDATE | cut -c1-4)
-  sed -i "s/_yearFirst_/$yr/g" docn.streams
-  sed -i "s/_yearLast_/$endyr/g" docn.streams
-  sed -i "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" docn.streams
-  for file in INPUT/oisst*.nc INPUT/sst*.nc INPUT/DOCN_input*.nc; do
-    if [[ -s "$file" ]]; then
-      sed -i "/^stream_data_files01:/ s/$/\ \"INPUT\/$(basename $file)\"/" docn.streams
-    fi
-  done
-  ${NLN} "${mesh_ocn}" INPUT/DOCN_ESMF_mesh.nc
-  ${NCP} ${PARMforecast}/ufs.configure.cdeps.tmp ./
-  sed -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
-      -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
-      -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
-      -e "s/_cpl_dt_/${cpl_dt}/g" \
-      -e "s/_base_dtg_/${CDATE}/g" \
-      -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
-      -e "s/_end_hour_/${NHRS}/g" \
-      -e "s/_merge_import_/${merge_import:-.true.}/g" \
-      -e "/_mesh_atm_/d" \
-      -e "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" \
-      -e "s/_system_type_/ufs/g" \
-      -e "s/_atm_model_/fv3/g" \
-      -e "s/_ocn_model_/docn/g" \
-      ufs.configure.cdeps.tmp > ufs.configure
-fi
+# if [ ${run_datm} = yes ]; then
+#   datm_source=${DATM_SOURCE:-ERA5}
+#   ${NCP} ${PARMforecast}/model_configure.tmp .
+#   ${NLN} ${mesh_atm} INPUT/DATM_ESMF_mesh.nc
+#   ${NLN} "$datm_input_path"/DATM_input*nc INPUT/
+#   # Generate docn.streams from template specific to the model:
+#   ${NCP} ${PARMhafs}/cdeps/datm_$( echo "$datm_source" | tr A-Z a-z ).streams datm.streams
+#   for file in INPUT/DATM_input*nc; do
+#     if [[ -s "$file" ]]; then
+#       sed -i "/^stream_data_files01:/ s/$/\ \"INPUT\/$(basename $file)\"/" datm.streams
+#     fi
+#   done
+#   endyr=$(${NDATE} +${NHRS} $CDATE | cut -c1-4)
+#   sed -i "s/_yearFirst_/$yr/g" datm.streams
+#   sed -i "s/_yearLast_/$endyr/g" datm.streams
+#   sed -i "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" datm.streams
+#   # Generate datm_in and ufs.configure from model-independent templates:
+#   ${NCP} ${PARMhafs}/cdeps/datm_in .
+#   sed -i "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" datm_in
+#   ${NCP} ${PARMforecast}/ufs.configure.cdeps.tmp ./
+#   sed -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
+#       -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
+#       -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
+#       -e "s/_cpl_dt_/${cpl_dt}/g" \
+#       -e "s/_base_dtg_/${CDATE}/g" \
+#       -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
+#       -e "s/_end_hour_/${NHRS}/g" \
+#       -e "s/_merge_import_/${merge_import:-.true.}/g" \
+#       -e "s/_mesh_atm_/INPUT\/DATM_ESMF_mesh.nc/g" \
+#       -e "/_mesh_ocn_/d" \
+#       -e "/_system_type_/d" \
+#       -e "s/_atm_model_/datm/g" \
+#       -e "s/_ocn_model_/hycom/g" \
+#       ufs.configure.cdeps.tmp > ufs.configure
+# elif [ ${run_docn} = yes ]; then
+#   MAKE_MESH_OCN=$( echo "${make_mesh_ocn:-no}" | tr a-z A-Z )
+#   ${NLN} "$docn_input_path"/DOCN_input*nc INPUT/
+#   #${NCP} ${PARMhafs}/cdeps/docn_in .
+#   #${NCP} ${PARMhafs}/cdeps/docn.streams .
+#   docn_source=${DOCN_SOURCE:-OISST}
+#   # Generate docn_in from template:
+#   ${NCP} ${PARMhafs}/cdeps/docn_in docn_in_template
+#   sed -e "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" \
+#       -e "s/_nx_global_/$docn_mesh_nx_global/g" \
+#       -e "s/_ny_global_/$docn_mesh_ny_global/g" \
+#       < docn_in_template > docn_in
+#   # Generate docn.streams from template specific to the model:
+#   ${NCP} ${PARMhafs}/cdeps/docn_$( echo "$docn_source" | tr A-Z a-z ).streams docn.streams
+#   endyr=$(${NDATE} +${NHRS} $CDATE | cut -c1-4)
+#   sed -i "s/_yearFirst_/$yr/g" docn.streams
+#   sed -i "s/_yearLast_/$endyr/g" docn.streams
+#   sed -i "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" docn.streams
+#   for file in INPUT/oisst*.nc INPUT/sst*.nc INPUT/DOCN_input*.nc; do
+#     if [[ -s "$file" ]]; then
+#       sed -i "/^stream_data_files01:/ s/$/\ \"INPUT\/$(basename $file)\"/" docn.streams
+#     fi
+#   done
+#   ${NLN} "${mesh_ocn}" INPUT/DOCN_ESMF_mesh.nc
+#   ${NCP} ${PARMforecast}/ufs.configure.cdeps.tmp ./
+#   sed -e "s/_ATM_petlist_bounds_/${ATM_petlist_bounds}/g" \
+#       -e "s/_MED_petlist_bounds_/${MED_petlist_bounds}/g" \
+#       -e "s/_OCN_petlist_bounds_/${OCN_petlist_bounds}/g" \
+#       -e "s/_cpl_dt_/${cpl_dt}/g" \
+#       -e "s/_base_dtg_/${CDATE}/g" \
+#       -e "s/_ocean_start_dtg_/${ocean_start_dtg}/g" \
+#       -e "s/_end_hour_/${NHRS}/g" \
+#       -e "s/_merge_import_/${merge_import:-.true.}/g" \
+#       -e "/_mesh_atm_/d" \
+#       -e "s/_mesh_ocn_/INPUT\/DOCN_ESMF_mesh.nc/g" \
+#       -e "s/_system_type_/ufs/g" \
+#       -e "s/_atm_model_/fv3/g" \
+#       -e "s/_ocn_model_/docn/g" \
+#       ufs.configure.cdeps.tmp > ufs.configure
+# fi
 
 # Generate model_configure
 SYEAR=${yr}
@@ -1516,7 +1516,7 @@ done
 
 for n in $(seq $((${ngrids}+1)) 6); do
   nstr=$(printf "_%0.2d" $n)
-  sed -i -e "/<output_grid${nstr}>/,/<\/output_grid${nstr}>/d" model_configure.tmp
+  # sed -i -e "/<output_grid${nstr}>/,/<\/output_grid${nstr}>/d" model_configure.tmp
 done
 
 atparse < model_configure.tmp > model_configure
@@ -1529,57 +1529,57 @@ else
   GRID_MSPEC_INT=${GRID_MSPEC_INT:-3}
   ATMOS_DIAG_INT=${ATMOS_DIAG_INT:-3}
 fi
-if [ ${run_datm} = no ]; then
-  atparse < diag_table.tmp > diag_table
-fi
-# Remove the grid_mspec lines if it is not a moving nesting configuration
-if [[ "${is_moving_nest:-".false."}" = *".true."* ]] || [[ "${is_moving_nest:-".false."}" = *".T."* ]] || [[ ${RUN_INIT:-NO} = YES ]]; then
-  echo "This is a moving nesting configuration"
-else
-  sed -i -e "/grid_mspec/d" diag_table
-fi
+# if [ ${run_datm} = no ]; then
+#   atparse < diag_table.tmp > diag_table
+# fi
+# # Remove the grid_mspec lines if it is not a moving nesting configuration
+# if [[ "${is_moving_nest:-".false."}" = *".true."* ]] || [[ "${is_moving_nest:-".false."}" = *".T."* ]] || [[ ${RUN_INIT:-NO} = YES ]]; then
+#   echo "This is a moving nesting configuration"
+# else
+#   sed -i -e "/grid_mspec/d" diag_table
+# fi
 
-# Prepare files needed by inline_post
-if [ ${write_dopost:-.false.} = .true. ]; then
-  ${NCP} ${PARMhafs}/post/itag ./itag
-  ${NCP} ${PARMhafs}/post/params_grib2_tbl_new ./params_grib2_tbl_new
-  if [ ${satpost:-.false.} = .true. ]; then
-    ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs.txt ./postxconfig-NT.txt
-    ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs.txt ./postxconfig-NT_FH00.txt
-    # Link crtm fix files
-    for file in "amsre_aqua" "imgr_g11" "imgr_g12" "imgr_g13" \
-      "imgr_g15" "imgr_mt1r" "imgr_mt2" "seviri_m10" \
-      "ssmi_f13" "ssmi_f14" "ssmi_f15" "ssmis_f16" \
-      "ssmis_f17" "ssmis_f18" "ssmis_f19" "ssmis_f20" \
-      "tmi_trmm" "v.seviri_m10" "imgr_insat3d" "abi_gr" "ahi_himawari8" \
-       "abi_g16" "abi_g17" ; do
-      ${NLN} ${FIXcrtm}/${file}.TauCoeff.bin ./
-      ${NLN} ${FIXcrtm}/${file}.SpcCoeff.bin ./
-    done
-    for file in "Aerosol" "Cloud"; do
-      ${NLN} ${FIXcrtm}/${file}Coeff.bin ./
-    done
-    for file in ${FIXcrtm}/*Emis*; do
-      ${NLN} ${file} ./
-    done
-  else
-    ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs_nosat.txt ./postxconfig-NT.txt
-    ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs_nosat.txt ./postxconfig-NT_FH00.txt
-  fi
-fi
+# # Prepare files needed by inline_post
+# if [ ${write_dopost:-.false.} = .true. ]; then
+#   ${NCP} ${PARMhafs}/post/itag ./itag
+#   ${NCP} ${PARMhafs}/post/params_grib2_tbl_new ./params_grib2_tbl_new
+#   if [ ${satpost:-.false.} = .true. ]; then
+#     ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs.txt ./postxconfig-NT.txt
+#     ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs.txt ./postxconfig-NT_FH00.txt
+#     # Link crtm fix files
+#     for file in "amsre_aqua" "imgr_g11" "imgr_g12" "imgr_g13" \
+#       "imgr_g15" "imgr_mt1r" "imgr_mt2" "seviri_m10" \
+#       "ssmi_f13" "ssmi_f14" "ssmi_f15" "ssmis_f16" \
+#       "ssmis_f17" "ssmis_f18" "ssmis_f19" "ssmis_f20" \
+#       "tmi_trmm" "v.seviri_m10" "imgr_insat3d" "abi_gr" "ahi_himawari8" \
+#        "abi_g16" "abi_g17" ; do
+#       ${NLN} ${FIXcrtm}/${file}.TauCoeff.bin ./
+#       ${NLN} ${FIXcrtm}/${file}.SpcCoeff.bin ./
+#     done
+#     for file in "Aerosol" "Cloud"; do
+#       ${NLN} ${FIXcrtm}/${file}Coeff.bin ./
+#     done
+#     for file in ${FIXcrtm}/*Emis*; do
+#       ${NLN} ${file} ./
+#     done
+#   else
+#     ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs_nosat.txt ./postxconfig-NT.txt
+#     ${NCP} ${PARMhafs}/post/postxconfig-NT-hafs_nosat.txt ./postxconfig-NT_FH00.txt
+#   fi
+# fi
 
-# Copy the fd_ufs.yaml file
-${NCP} ${HOMEhafs}/sorc/hafs_forecast.fd/tests/parm/fd_ufs.yaml ./
+# # Copy the fd_ufs.yaml file
+# ${NCP} ${HOMEhafs}/sorc/hafs_forecast.fd/tests/parm/fd_ufs.yaml ./
 
-# Copy the executable and run the forecast
-FORECASTEXEC=${FORECASTEXEC:-${EXEChafs}/hafs_forecast.x}
-${NCP} -p ${FORECASTEXEC} ./hafs_forecast.x
-#${APRUNC} ./hafs_forecast.x > forecast.log 2>&1
-#status=$?; [[ $status -ne 0 ]] && exit $status
-#cat forecast.log
-set -o pipefail
-${APRUNC} ./hafs_forecast.x 2>&1 | tee forecast.log
-set +o pipefail
+# # Copy the executable and run the forecast
+# FORECASTEXEC=${FORECASTEXEC:-${EXEChafs}/hafs_forecast.x}
+# ${NCP} -p ${FORECASTEXEC} ./hafs_forecast.x
+# #${APRUNC} ./hafs_forecast.x > forecast.log 2>&1
+# #status=$?; [[ $status -ne 0 ]] && exit $status
+# #cat forecast.log
+# set -o pipefail
+# ${APRUNC} ./hafs_forecast.x 2>&1 | tee forecast.log
+# set +o pipefail
 
 if [ $gtype = regional ] && [ ${run_datm} = no ]; then
 

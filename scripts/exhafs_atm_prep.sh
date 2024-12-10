@@ -114,13 +114,19 @@ export DATA=${DATA:-${WORKhafs}/atm_prep}
 mkdir -p ${out_dir}
 
 # If gridfixdir is specified and exists, use the grid fix files directly
+# Lew.Gramer@noaa.gov 2024-08-22: prep_mvnest speed-up per Bill Ramstrom per Bin Liu
 if [ -d $gridfixdir ]; then
   echo "$gridfixdir is specified and exists."
-  echo "Copy the grid fix files directly."
-  ${NCP} -r $gridfixdir/* ${out_dir}/
-  ls ${out_dir}
-  exit
+  if [ ! -z "$( ls -A $gridfixdir )" ]; then
+    echo "Copy the grid fix files directly."
+    ${NCP} -r $gridfixdir/* ${out_dir}/
+    ls ${out_dir}
+    exit
+  else
+    echo "INFO: gridfixdir $gridfixdir exists but is EMPTY - not copying"
+  fi
 fi
+#LJG
 
 # Otherwise, generate grid according to the following parameters
 #----------------------------------------------------------------
@@ -669,6 +675,15 @@ fi
 done
 
 fi
+
+# Lew.Gramer@noaa.gov 2024-08-22: prep_mvnest speed-up per Bill Ramstrom per Bin Liu
+if [[ ${ATM_PREP_MVNEST:-NO} = YES ]] && [[ "${is_moving_nest}" = *".true."* ]]; then
+  echo "Copy the grid fix files to gridfixdir $gridfixdir for reuse in later cycles"
+  ${NCP} -p -r ${OUTDIR}/* $gridfixdir/
+  ls ${gridfixdir}
+fi
+# LJG
+
 # End of run for the global or regional nested tiles.
 #----------------------------------------------------------------
 
