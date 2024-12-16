@@ -4,7 +4,7 @@
 # ldo_enscalc_option=1: enkf_mean, calculate the ensemble mean
 # ldo_enscalc_option=2: enkf_recenter, recenter the ensemble memmber analysis around the deterministic EnVar analysis
 
-set -xe
+set -x -o pipefail
 
 if [ ${ENSDA} = YES ]; then
   export NHRS=${NHRS_ENS:-126}

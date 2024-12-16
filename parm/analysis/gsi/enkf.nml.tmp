@@ -24,7 +24,6 @@
    paranc=.false.,write_fv3_incr=.false.,
    incvars_to_zero='NONE',
    smoothparm=-1,
-   ldo_enscalc_option=_ldo_enscalc_option_,
 /
 
 &satobs_enkf

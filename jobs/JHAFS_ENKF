@@ -26,7 +26,6 @@ export USHhafs=$HOMEhafs/ush
 export EXEChafs=$HOMEhafs/exec
 export PARMhafs=$HOMEhafs/parm
 export FIXhafs=$HOMEhafs/fix
-export RRFS_RECENTER=${rrfs_recenter:-NO}
 
 export WORKhafs=${WORKhafs:-${DATAROOT:?}/${RUN:?}${storm_num:?}_${cyc:?}_${envir:?}_${hafs_ver:?}}
 
@@ -49,7 +48,7 @@ if [ "${RUN_ENVIR^^}" != "NCO" ]; then
   if [[ ${machine}  = "jet" ]] || [[ ${machine}  = "orion" ]] || [[ ${machine}  = "hercules" ]]; then
     module purge
     module use $HOMEhafs/sorc/hafs_gsi.fd/modulefiles
-    module load gsi_${machine}
+    module load gsi_${machine}.intel
   fi
   module list
 else
@@ -94,7 +93,7 @@ mkdir -p $DATA
 cd $DATA
 
 # Execute ex-script
-if [ "${RRFS_RECENTER}" = NO ] || [ ${ldo_enscalc_option} -eq 0 ]; then
+if [ ${ldo_enscalc_option} -eq 0 ]; then
   ${HOMEhafs}/scripts/exhafs_enkf.sh
 else
   ${HOMEhafs}/scripts/exhafs_ens_mean_recenter.sh

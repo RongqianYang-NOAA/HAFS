@@ -82,9 +82,10 @@ PROGRAM ens_mean_recenter
   integer :: startloc(3)
   integer :: countloc(3)
   integer :: ncioid,var_id
+  character(len=30) :: nml_filename
 !
 !
-  integer :: i,j,k,iret,ilev,iens
+  integer :: i,j,k,iret,ilev,iens,cmd_arg_len
   real(8) :: average
   character (len=3)    :: memnun 
   logical :: l_positive
@@ -110,14 +111,29 @@ PROGRAM ens_mean_recenter
   l_write_mean=.true.
   l_recenter=.false.
 
-  inquire(file='hafs_mean_recenter.nml', EXIST=ifexist )
+  call get_command_argument(1,nml_filename,cmd_arg_len)
+  if (cmd_arg_len == 0) then
+    print *, 'Error: No filename provided. Usage: ./hafs_tools_ens_mean_recenter.x <namelist_file>'
+    stop
+  endif
+
+  inquire(file=nml_filename,EXIST=ifexist)
   if(ifexist) then
-    open(10,file='hafs_mean_recenter.nml',status='old')
+    open(10,file=nml_filename,status='old')
        read(10,setup)
     close(10)
   else
-     write(*,*) 'No namelist file exist, use default values'
+    write(*,*) 'file',nml_filename,' does not exist, use default values'
   endif
+
+!  inquire(file='hafs_mean_recenter.nml', EXIST=ifexist )
+!  if(ifexist) then
+!    open(10,file='hafs_mean_recenter.nml',status='old')
+!       read(10,setup)
+!    close(10)
+!  else
+!     write(*,*) 'No namelist file exist, use default values'
+!  endif
 
   if(mype==0) then
     write(*,*) 'Namelist setup are:'
